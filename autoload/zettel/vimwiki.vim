@@ -342,11 +342,13 @@ function! zettel#vimwiki#zettel_new(...)
   let template = zettel#vimwiki#get_option("template")
   if !empty(template)
     let variables = get(a:, 2, 0)
-    if !empty(variables)
+    if empty(variables)
       " variables are available only when this function is called from
       " zettel_new_selected
-      call zettel#vimwiki#expand_template(template, variables)
+      let variables = {}
+      let variables.title = a:1
     endif
+    call zettel#vimwiki#expand_template(template, variables)
   endif
   " save the new wiki file
   execute ":w"
